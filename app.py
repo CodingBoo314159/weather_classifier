@@ -13,7 +13,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # ← add this line
 MODEL_PATH = 'last.pt'
-RESULTS_CSV = 'your_results.csv'
+RESULTS_CSV = 'results.csv'
 
 model = YOLO(MODEL_PATH)
 
