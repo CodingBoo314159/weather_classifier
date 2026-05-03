@@ -1,0 +1,6 @@
+flask
+ultralytics
+numpy
+pandas
+matplotlib
+python-dotenv
