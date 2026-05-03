@@ -2,18 +2,16 @@ from flask import Flask, render_template, request
 from ultralytics import YOLO
 import numpy as np
 import os
-import pandas as pd
 import matplotlib
-matplotlib.use('Agg')  # Important: stops matplotlib from opening a window
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
 # --- Config ---
 UPLOAD_FOLDER = 'static/uploads'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # ← add this line
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 MODEL_PATH = 'last.pt'
-RESULTS_CSV = 'results.csv'
 
 model = YOLO(MODEL_PATH)
 
@@ -36,23 +34,6 @@ def predict():
     probs = results[0].probs.data.tolist()
     predicted_label = names_dict[np.argmax(probs)]
     confidence = round(max(probs) * 100, 2)
-
-    # 3. Generate training graphs and save as images
-    df = pd.read_csv(RESULTS_CSV)
-
-    def save_plot(x, y, title, ylabel, filename):
-        plt.figure()
-        plt.plot(x, y)
-        plt.scatter(x, y)
-        plt.title(title)
-        plt.xlabel("Epochs")
-        plt.ylabel(ylabel)
-        plt.savefig(f'static/{filename}')
-        plt.close()
-
-    save_plot(df['epoch'], df['train/loss'], 'Train Loss', 'Loss', 'train_loss.png')
-    save_plot(df['epoch'], df['val/loss'], 'Validation Loss', 'Loss', 'val_loss.png')
-    save_plot(df['epoch'], df['metrics/accuracy_top1'] * 100, 'Top-1 Accuracy', 'Accuracy (%)', 'accuracy.png')
 
     return render_template('results.html',
         label=predicted_label,
