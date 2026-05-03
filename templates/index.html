@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Classifier</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f0f4f8; }
+        h1 { color: #333; }
+        input[type="file"] { margin: 20px; }
+        button { padding: 10px 20px; background: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #357abd; }
+    </style>
+</head>
+<body>
+    <h1>🌤️ Weather Image Classifier</h1>
+    <p>Upload an image and the model will predict the weather condition.</p>
+
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required><br>
+        <button type="submit">Predict Weather</button>
+    </form>
+</body>
+</html>
